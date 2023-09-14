@@ -5,26 +5,18 @@
  */
 void more_numbers(void)
 {
-	int count = 0;
-	int num;
+    int i, j;
 
-	while (count < 10)
-	{
-		num = 0;
-		while (num <= 14)
-		{
-			if (num < 10)
-				_putchar(num + '0');
-			else
-			{
-				_putchar(num / 10 + '0');
-				_putchar(num % 10 + '0');
-			}
-			num++;
-		}
-		count++;
-		if (count < 10)
-			_putchar('\n');
-	}
-	_putchar('\n');
+    for (i = 0; i < 10; i++) /* loop 10 times */
+    {
+        for (j = 0; j <= 14; j++) /* loop from 0 to 14 */
+        {
+            if (j > 9) /* if j is a two-digit number */
+            {
+                _putchar((j / 10) + '0'); /* print the first digit */
+            }
+            _putchar((j % 10) + '0'); /* print the second digit or the single digit */
+        }
+        _putchar('\n'); /* print a new line */
+    }
 }
