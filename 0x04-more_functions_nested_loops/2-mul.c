@@ -1,6 +1,4 @@
 #include "main.h"
-#include <stdio.h>
-
 /**
  * mul - Multiplies two numbers and returns the result
  * @a: multiplier1
