@@ -1,14 +1,12 @@
 #include <stdio.h>
 
- /**
+/**
   * main - program entry point
   *
-  * Description: Prints all possible combinations of single-digit numbers.
-  * Numbers are separated by a comma and a space, and they are printed in
-  * ascending order.
-  * Return: Always 0 (sucess)
+  * Description: Prints numbers 0 to 9
+  *
+  * Return: Always 0 (success)
   */
-
 int main(void)
 {
 	int i;
