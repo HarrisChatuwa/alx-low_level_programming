@@ -1,53 +1,100 @@
 #include "main.h"
 
 /**
- * infinite_add - Adds two numbers.
- * @n1: The first number as a string.
- * @n2: The second number as a string.
- * @r: The buffer to store the result.
- * @size_r: The size of the buffer.
- *
- * Return: A pointer to the result if it fits within size_r, or 0 if not.
+ * infinite_add - adds two numbers
+ * @n1: the first number
+ * @n2: the second number
+ * @r: the buffer to store the result
+ * @size_r: the buffer size
+ * Return: a pointer to the result, or 0 if it cannot be stored in r
  */
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-    int len1 = 0, len2 = 0, len_sum = 0, carry = 0;
+	int l, m, i, j, k, len1, len2, sum, carry, digit;
+	char temp;
 
-    while (n1[len1] != '\0')
-        len1++;
-    while (n2[len2] != '\0')
-        len2++;
+	/* find the lengths of n1 and n2 */
+	for (len1 = 0; n1[len1] != '\0'; len1++)
+		;
+	for (len2 = 0; n2[len2] != '\0'; len2++)
+		;
 
-    if (len1 > size_r || len2 > size_r)
-        return 0;
+	/* initialize the indices and the carry */
+	i = len1 - 1;
+	j = len2 - 1;
+	k = 0;
+	carry = 0;
 
-    len1--;
-    len2--;
+	/* loop from right to left until one of the numbers is exhausted */
+	while (i >= 0 && j >= 0)
+	{
+		/* convert the chars to ints and add them with the carry */
+		sum = (n1[i] - '0') + (n2[j] - '0') + carry;
+		/* get the last digit of the sum and convert it to char */
+		digit = sum % 10;
+		r[k] = digit + '0';
+		/* update the carry */
+		carry = sum / 10;
+		/* decrement the indices and increment the buffer index */
+		i--;
+		j--;
+		k++;
+	}
 
-    if (len1 >= size_r - 1 || len2 >= size_r - 1)
-        return 0;
+	/* loop until n1 is exhausted */
+	while (i >= 0)
+	{
+		/* add the remaining digit of n1 with the carry */
+		sum = (n1[i] - '0') + carry;
+		/* get the last digit of the sum and convert it to char */
+		digit = sum % 10;
+		r[k] = digit + '0';
+		/* update the carry */
+		carry = sum / 10;
+		/* decrement i and increment k */
+		i--;
+		k++;
+	}
 
-    len_sum = (len1 > len2) ? len1 + 1 : len2 + 1;
+	/* loop until n2 is exhausted */
+	while (j >= 0)
+	{
+		/* add the remaining digit of n2 with the carry */
+		sum = (n2[j] - '0') + carry;
+		/* get the last digit of the sum and convert it to char */
+		digit = sum % 10;
+		r[k] = digit + '0';
+		/* update the carry */
+		carry = sum / 10;
+		/* decrement j and increment k */
+		j--;
+		k++;
+	}
 
-    r[len_sum] = '\0';
+	/* if there is still a carry, add it to the buffer */
+	if (carry > 0)
+	{
+		r[k] = carry + '0';
+		k++;
+	}
 
-    while (len1 >= 0 || len2 >= 0 || carry)
-    {
-        int digit1 = (len1 >= 0) ? n1[len1] - '0' : 0;
-        int digit2 = (len2 >= 0) ? n2[len2] - '0' : 0;
-        int sum = digit1 + digit2 + carry;
+	/* if the buffer size is not enough, return 0 */
+	if (k >= size_r)
+	{
+		return (0);
+	}
 
-        carry = sum / 10;
-        sum %= 10;
+	/* add a null terminator to the buffer */
+	r[k] = '\0';
 
-        r[len_sum - 1] = sum + '0';
-        len1--;
-        len2--;
-        len_sum--;
-    }
+	/* reverse the buffer in place using another loop */
+	for (l = 0, m = k - 1; l < m; l++, m--)
+	{
+		temp = r[l];
+		r[l] = r[m];
+		r[m] = temp;
+	}
 
-    if (len_sum >= size_r)
-        return 0;
-
-    return r;
+	/* return a pointer to the buffer */
+	return (r);
 }
